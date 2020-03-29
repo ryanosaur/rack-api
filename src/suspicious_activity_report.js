@@ -4,7 +4,6 @@ const SuspiciousActivityReport = sequelize =>
   sequelize.define(
     'suspicious_activity_report',
     {
-      id: { type: DataTypes.NUMBER, primaryKey: true },
       suspicion_type: { type: DataTypes.STRING },
       date_observed: { type: DataTypes.STRING },
       time_observed: { type: DataTypes.STRING },

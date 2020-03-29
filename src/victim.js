@@ -4,7 +4,6 @@ const Victim = sequelize =>
   sequelize.define(
     'victim',
     {
-      id: { type: DataTypes.NUMBER, primaryKey: true },
       name: { type: DataTypes.STRING },
       dob: { type: DataTypes.STRING },
       date_missing: { type: DataTypes.STRING },

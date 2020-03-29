@@ -47,12 +47,42 @@ const typeDefs = gql`
     victims: [Victim]
     suspiciousActivityReport: [SuspiciousActivityReport]
   }
+
+  input SuspiciousActivityReportInput {
+    suspicion_type: String
+    date_observed: String
+    time_observed: String
+    room_number: String
+    room_registered_name: String
+    gender: String
+    age_observed: String
+    ethnicity: String
+    hair_color: String
+    hair_length: String
+    noteable_features: String
+    additional_victim: Boolean
+    additional_criminal: Boolean
+    license_number: String
+    license_state: String
+    why_vehicle_suspicious: String
+    anything_else: String
+  }
+
+  type Mutation {
+    addSuspiciousActivityReport(
+      report: SuspiciousActivityReportInput!
+    ): SuspiciousActivityReport
+  }
 `
 
 const resolvers = {
   Query: {
     victims: () => Victim.findAll(),
     suspiciousActivityReport: () => SuspiciousActivityReport.findAll()
+  },
+  Mutation: {
+    addSuspiciousActivityReport: (_p, { report }) =>
+      SuspiciousActivityReport.create(report)
   }
 }
 
