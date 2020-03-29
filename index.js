@@ -2,6 +2,7 @@ const { ApolloServer, gql } = require('apollo-server')
 const db = require('./src/db')
 const Victim = require('./src/victim')(db)
 const SuspiciousActivityReport = require('./src/suspicious_activity_report')(db)
+const MatchResult = require('./src/match_result')(db)
 const AWS = require('aws-sdk')
 AWS.config.update({ region: 'us-east-1' })
 
@@ -22,6 +23,16 @@ const typeDefs = gql`
     city: String
     state: String
     country: String
+  }
+
+  type MatchResult {
+    input_bucket: String
+    input_prefix: String
+    input_filename: String
+    similarity_bucket: String
+    similarity_prefix: String
+    similarity_filename: String
+    similarity_score: String
   }
 
   type SuspiciousActivityReport {
@@ -50,6 +61,7 @@ const typeDefs = gql`
 
   type Query {
     victims: [Victim]
+    matchResults: [MatchResult]
     suspiciousActivityReport: [SuspiciousActivityReport]
   }
 
@@ -90,6 +102,7 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     victims: () => Victim.findAll(),
+    matchResults: () => MatchResult.findAll(),
     suspiciousActivityReport: () => SuspiciousActivityReport.findAll()
   },
   Mutation: {
