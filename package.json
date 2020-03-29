@@ -1,0 +1,29 @@
+{
+  "name": "rack-api",
+  "version": "1.0.0",
+  "description": "rack api by",
+  "main": "index.js",
+  "dependencies": {
+    "apollo-server": "^2.11.0",
+    "graphql": "^14.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanosaur/rack-api.git"
+  },
+  "keywords": [
+    "rack",
+    "api",
+    "wat"
+  ],
+  "author": "ryanosaur",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ryanosaur/rack-api/issues"
+  },
+  "homepage": "https://github.com/ryanosaur/rack-api#readme"
+}
