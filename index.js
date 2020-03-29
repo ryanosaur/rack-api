@@ -75,6 +75,8 @@ const typeDefs = gql`
     license_state: String
     why_vehicle_suspicious: String
     anything_else: String
+    race: String
+    location_observed: String
   }
 
   type Mutation {
