@@ -43,6 +43,9 @@ const typeDefs = gql`
     license_state: String
     why_vehicle_suspicious: String
     anything_else: String
+    url: String
+    race: String
+    location_observed: String
   }
 
   type Query {
@@ -108,7 +111,12 @@ const resolvers = {
           }
           console.log('Upload Success', data.Location)
           SuspiciousActivityReport.update(
-            { filename: data.Location },
+            {
+              url: data.Location,
+              bucket: 'racksaruploads',
+              prefix: `${sarId}`,
+              filename: file.filename
+            },
             { where: { id: sarId } }
           )
           return Promise.resolve()

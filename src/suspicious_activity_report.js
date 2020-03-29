@@ -21,6 +21,11 @@ const SuspiciousActivityReport = sequelize =>
       license_state: { type: DataTypes.STRING },
       filename: { type: DataTypes.STRING },
       why_vehicle_suspicious: { type: DataTypes.TEXT },
+      bucket: { type: DataTypes.STRING },
+      prefix: { type: DataTypes.STRING },
+      url: { type: DataTypes.STRING },
+      race: { type: DataTypes.STRING },
+      location_observed: { type: DataTypes.STRING },
       anything_else: { type: DataTypes.TEXT }
     },
     { timestamps: false }
