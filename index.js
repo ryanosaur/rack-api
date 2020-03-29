@@ -1,4 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server')
+const db = require('./src/db')
+const Victim = require('./src/victim')(db)
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
@@ -6,8 +8,20 @@ const { ApolloServer, gql } = require('apollo-server')
 const typeDefs = gql`
   type Victim {
     id: ID
-    firstName: String
-    lastName: String
+    name: String
+    dob: String
+    date_missing: String
+    eyes: String
+    hair: String
+    height: String
+    weight: String
+    sex: String
+    age_at_disappearance: String
+    circumstances: String
+    other: String
+    city: String
+    state: String
+    country: String
   }
 
   type Query {
@@ -15,22 +29,9 @@ const typeDefs = gql`
   }
 `
 
-const victims = [
-  {
-    id: 1,
-    firstName: 'Harry Potter and the Chamber of Secrets',
-    lastName: 'J.K. Rowling'
-  },
-  {
-    id: 2,
-    firstName: 'Jurassic Park',
-    lastName: 'Michael Crichton'
-  }
-]
-
 const resolvers = {
   Query: {
-    victims: () => victims
+    victims: () => Victim.findAll()
   }
 }
 
@@ -41,6 +42,11 @@ const server = new ApolloServer({
   playground: true
 })
 
-server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
-  console.log(`🚀  Server ready at ${url}`)
-})
+db.authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.')
+    server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+      console.log(`🚀  Server ready at ${url}`)
+    })
+  })
+  .error(error => console.error('Unable to connect to the database:', error))
