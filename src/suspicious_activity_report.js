@@ -19,6 +19,7 @@ const SuspiciousActivityReport = sequelize =>
       additional_criminal: { type: DataTypes.BOOLEAN },
       license_number: { type: DataTypes.STRING },
       license_state: { type: DataTypes.STRING },
+      filename: { type: DataTypes.STRING },
       why_vehicle_suspicious: { type: DataTypes.TEXT },
       anything_else: { type: DataTypes.TEXT }
     },

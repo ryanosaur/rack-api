@@ -2,6 +2,8 @@ const { ApolloServer, gql } = require('apollo-server')
 const db = require('./src/db')
 const Victim = require('./src/victim')(db)
 const SuspiciousActivityReport = require('./src/suspicious_activity_report')(db)
+const AWS = require('aws-sdk')
+AWS.config.update({ region: 'us-east-1' })
 
 const typeDefs = gql`
   type Victim {
@@ -48,6 +50,10 @@ const typeDefs = gql`
     suspiciousActivityReport: [SuspiciousActivityReport]
   }
 
+  type File {
+    url: String!
+  }
+
   input SuspiciousActivityReportInput {
     suspicion_type: String
     date_observed: String
@@ -72,6 +78,7 @@ const typeDefs = gql`
     addSuspiciousActivityReport(
       report: SuspiciousActivityReportInput!
     ): SuspiciousActivityReport
+    uploadFile(file: Upload!, sarId: ID!): File
   }
 `
 
@@ -82,7 +89,31 @@ const resolvers = {
   },
   Mutation: {
     addSuspiciousActivityReport: (_p, { report }) =>
-      SuspiciousActivityReport.create(report)
+      SuspiciousActivityReport.create(report),
+    uploadFile: (_p, { file, sarId }) =>
+      file.then(file => {
+        s3 = new AWS.S3({ apiVersion: '2006-03-01' })
+        const uploadParams = {
+          Bucket: 'racksaruploads',
+          Key: `${sarId}/${file.filename}`,
+          Body: ''
+        }
+        const fileStream = file.createReadStream()
+        fileStream.on('error', err => console.log('File Error', err))
+        uploadParams.Body = fileStream
+        s3.upload(uploadParams, function(err, data) {
+          if (err) {
+            console.log('Error', err)
+            return Promise.reject(err)
+          }
+          console.log('Upload Success', data.Location)
+          SuspiciousActivityReport.update(
+            { filename: data.Location },
+            { where: { id: sarId } }
+          )
+          return Promise.resolve()
+        })
+      })
   }
 }
 
