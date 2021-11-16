@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "apollo-server": "^2.14.2",
-    "aws-sdk": "^2.648.0",
+    "aws-sdk": "^2.814.0",
     "graphql": "^14.6.0",
     "graphql-upload": "^10.0.0",
     "pg": "^7.3.0",
