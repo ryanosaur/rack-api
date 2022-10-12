@@ -4,7 +4,7 @@
   "description": "rack api by",
   "main": "index.js",
   "dependencies": {
-    "apollo-server": "^2.14.2",
+    "apollo-server": "^2.25.4",
     "aws-sdk": "^2.648.0",
     "graphql": "^14.6.0",
     "graphql-upload": "^10.0.0",
